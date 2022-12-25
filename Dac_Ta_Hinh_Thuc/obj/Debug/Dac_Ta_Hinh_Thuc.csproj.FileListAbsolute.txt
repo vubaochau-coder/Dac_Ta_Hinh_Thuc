@@ -1,7 +1,6 @@
 C:\Users\Wellcome\source\repos\Dac_Ta_Hinh_Thuc\Dac_Ta_Hinh_Thuc\bin\Debug\Dac_Ta_Hinh_Thuc.exe.config
 C:\Users\Wellcome\source\repos\Dac_Ta_Hinh_Thuc\Dac_Ta_Hinh_Thuc\bin\Debug\Dac_Ta_Hinh_Thuc.exe
 C:\Users\Wellcome\source\repos\Dac_Ta_Hinh_Thuc\Dac_Ta_Hinh_Thuc\bin\Debug\Dac_Ta_Hinh_Thuc.pdb
-C:\Users\Wellcome\source\repos\Dac_Ta_Hinh_Thuc\Dac_Ta_Hinh_Thuc\obj\Debug\Dac_Ta_Hinh_Thuc.csprojAssemblyReference.cache
 C:\Users\Wellcome\source\repos\Dac_Ta_Hinh_Thuc\Dac_Ta_Hinh_Thuc\obj\Debug\Dac_Ta_Hinh_Thuc.Form1.resources
 C:\Users\Wellcome\source\repos\Dac_Ta_Hinh_Thuc\Dac_Ta_Hinh_Thuc\obj\Debug\Dac_Ta_Hinh_Thuc.Properties.Resources.resources
 C:\Users\Wellcome\source\repos\Dac_Ta_Hinh_Thuc\Dac_Ta_Hinh_Thuc\obj\Debug\Dac_Ta_Hinh_Thuc.csproj.GenerateResource.cache
@@ -9,3 +8,4 @@ C:\Users\Wellcome\source\repos\Dac_Ta_Hinh_Thuc\Dac_Ta_Hinh_Thuc\obj\Debug\Dac_T
 C:\Users\Wellcome\source\repos\Dac_Ta_Hinh_Thuc\Dac_Ta_Hinh_Thuc\obj\Debug\Dac_Ta_Hinh_Thuc.exe
 C:\Users\Wellcome\source\repos\Dac_Ta_Hinh_Thuc\Dac_Ta_Hinh_Thuc\obj\Debug\Dac_Ta_Hinh_Thuc.pdb
 C:\Users\Wellcome\source\repos\Dac_Ta_Hinh_Thuc\Dac_Ta_Hinh_Thuc\obj\Debug\Dac_Ta_Hinh_Thuc.AboutForm.resources
+C:\Users\Wellcome\source\repos\Dac_Ta_Hinh_Thuc\Dac_Ta_Hinh_Thuc\obj\Debug\Dac_Ta_Hinh_Thuc.csproj.AssemblyReference.cache

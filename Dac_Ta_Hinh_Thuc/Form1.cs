@@ -37,19 +37,22 @@ namespace Dac_Ta_Hinh_Thuc
             "\t{\n";
         public const string THEME_2 = "(string[] args)\n" +
             "\t\t{\n";
-        
+
+        public string textBoxSelected;
         public Form1()
         {
             isSaved = true;
             fileName = "";
             lastSavedText = "";
-            
+            textBoxSelected = "";
+
             InitializeComponent();
         }
 
         private void BtnBlank_Click(object sender, EventArgs e)
         {
             SetBlankPage();
+            isSaved = true;
         }
 
         private void BtnOpenFile_Click(object sender, EventArgs e)
@@ -89,7 +92,7 @@ namespace Dac_Ta_Hinh_Thuc
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if(e.CloseReason == CloseReason.UserClosing)
+            if (e.CloseReason == CloseReason.UserClosing)
             {
                 if (isSaved)
                     Application.Exit();
@@ -130,6 +133,7 @@ namespace Dac_Ta_Hinh_Thuc
                     textBoxInput.Text = File.ReadAllText(openFileDialog.FileName);
                     fileName = Path.GetFileName(openFileDialog.FileName);
                     fileName = fileName.Substring(0, fileName.IndexOf("."));
+
                 }
                 catch (Exception exception)
                 {
@@ -139,10 +143,6 @@ namespace Dac_Ta_Hinh_Thuc
         }
         private void SetBlankPage()
         {
-            //textBoxInput.Clear();
-            //textBoxOutput.Clear();
-            //textBoxInput.Text = "";
-            //textBoxOutput.Text = "";
             TextBoxInputClear();
             TextBoxOutputClear();
         }
@@ -202,16 +202,9 @@ namespace Dac_Ta_Hinh_Thuc
             string[] greenWords = new string[] { "Console", "Program" };
             string[] yelloWords = new string[] { "Main", "ReadLine", "WriteLine", "Nhap_" + nameFunc, "KiemTra_" + nameFunc, nameFunc, "Xuat_" + nameFunc };
 
-            //int index = 0;
             textBoxOutput.SelectAll();
-            //while(index<textBoxOutput.Text.LastIndexOf("static"))
-            //{
-            //    textBoxOutput.Find("static", index, textBoxOutput.TextLength, RichTextBoxFinds.MatchCase);
-            //    textBoxOutput.SelectionColor = Color.Blue;
-            //    index = textBoxOutput.Text.IndexOf("static", index) + 1;
-            //}
 
-            foreach(string blue in blueWords)
+            foreach (string blue in blueWords)
             {
                 int index0 = finalText.IndexOf(blue);
                 if (index0 >= 0)
@@ -292,61 +285,110 @@ namespace Dac_Ta_Hinh_Thuc
             }
         }
 
-        private void BackSpace()
-        {
-            for (int i = 0; i < finalText.Length; i++) 
+        private void HighlightInputText()
+        {           
+            string[] blueWords = new string[] { "pre", "post"};
+            string[] redWords = new string[] { "R", "N", "B", "*", "Z", "char"};
+            string[] brownWords = new string[] { "||", "&&"};
+
+            string temp = textBoxInput.Text;
+            temp = temp.Insert(temp.IndexOf("pre"), "\n");
+            temp = temp.Insert(temp.IndexOf("pre") + 3, " ");
+            temp = temp.Insert(temp.IndexOf("post"), "\n");
+            temp = temp.Insert(temp.IndexOf("post") + 4, " ");
+            textBoxInput.Text = temp;
+
+            foreach (string blue in blueWords)
             {
-                if (finalText[i] == '=') 
+                int index0 = textBoxInput.Text.IndexOf(blue);
+                if (index0 >= 0)
                 {
-                    if (finalText[i - 1] != '=' && finalText[i - 1] != ' ' && finalText[i - 1] != '<' && finalText[i - 1] != '>' && finalText[i - 1] != '!')
+                    while (index0 <= textBoxInput.Text.LastIndexOf(blue))
                     {
-                        finalText = finalText.Insert(i, " ");
-                        i++;
-                    }
-                    if (finalText[i + 1] != '=' && finalText[i + 1]!= ' ')
-                    {
-                        finalText = finalText.Insert(i + 1, " ");
-                    }    
-                }
-                if (finalText[i] == '<') 
-                {
-                    if (finalText[i - 1] != ' ') 
-                    {
-                        finalText = finalText.Insert(i, " ");
-                        i++;
-                    }
-                    if (finalText[i + 1] != '=' && finalText[i + 1] != ' ')
-                    {
-                        finalText = finalText.Insert(i + 1, " ");
+                        textBoxInput.Find(blue, index0, textBoxInput.TextLength, RichTextBoxFinds.MatchCase);
+                        textBoxInput.SelectionColor = Color.Blue;
+                        index0 = textBoxInput.Text.IndexOf(blue, index0) + blue.Length;
                     }
                 }
-                if (finalText[i] == '>') 
+            }
+
+            MatchCollection a = Regex.Matches(temp, @"(?<=\:)(R|N|char|B|Z)");
+            foreach (Match b in a)
+            {
+                int index0 = b.Index;
+                string t = b.ToString();
+                while (index0 <= textBoxInput.Text.LastIndexOf(t))
                 {
-                    if (finalText[i - 1] != ' ')
-                    {
-                        finalText = finalText.Insert(i, " ");
-                        i++;
-                    }
-                    if (finalText[i + 1] != '=' && finalText[i + 1] != ' ')
-                    {
-                        finalText = finalText.Insert(i + 1, " ");
-                    }
+                    textBoxInput.Find(t, index0, textBoxInput.TextLength, RichTextBoxFinds.MatchCase);
+                    textBoxInput.SelectionColor = Color.Red;
+                    index0 = textBoxInput.Text.IndexOf(t, index0) + t.Length;
                 }
-                if (finalText[i] == '!')
+            }
+
+            foreach (string brown in brownWords)
+            {
+                int index0 = textBoxInput.Text.IndexOf(brown);
+                if (index0 >= 0)
                 {
-                    if (finalText[i - 1] != ' ')
+                    while (index0 <= textBoxInput.Text.LastIndexOf(brown))
                     {
-                        finalText = finalText.Insert(i, " ");
-                        i++;
+                        textBoxInput.Find(brown, index0, textBoxInput.TextLength, RichTextBoxFinds.MatchCase);
+                        textBoxInput.SelectionColor = Color.FromArgb(208, 109, 5);
+                        index0 = textBoxInput.Text.IndexOf(brown, index0) + brown.Length;
                     }
                 }
             }
         }
 
-        private void BtnAbout_Click(object sender, EventArgs e)
+        private void BackSpace(ref string str)
         {
-            Form about = new AboutForm();
-            about.ShowDialog();
+            for (int i = 0; i < str.Length; i++)
+            {
+                if (str[i] == '=')
+                {
+                    if (str[i - 1] != '=' && str[i - 1] != ' ' && str[i - 1] != '<' && str[i - 1] != '>' && str[i - 1] != '!')
+                    {
+                        str = str.Insert(i, " ");
+                        i++;
+                    }
+                    if (str[i + 1] != '=' && str[i + 1] != ' ')
+                    {
+                        str = str.Insert(i + 1, " ");
+                    }
+                }
+                if (str[i] == '<')
+                {
+                    if (str[i - 1] != ' ')
+                    {
+                        str = str.Insert(i, " ");
+                        i++;
+                    }
+                    if (str[i + 1] != '=' && str[i + 1] != ' ')
+                    {
+                        str = str.Insert(i + 1, " ");
+                    }
+                }
+                if (str[i] == '>')
+                {
+                    if (str[i - 1] != ' ')
+                    {
+                        str = str.Insert(i, " ");
+                        i++;
+                    }
+                    if (str[i + 1] != '=' && str[i + 1] != ' ')
+                    {
+                        str = str.Insert(i + 1, " ");
+                    }
+                }
+                if (str[i] == '!')
+                {
+                    if (str[i - 1] != ' ')
+                    {
+                        str = str.Insert(i, " ");
+                        i++;
+                    }
+                }
+            }
         }
 
         private void BtnBuild_Click(object sender, EventArgs e)
@@ -357,20 +399,21 @@ namespace Dac_Ta_Hinh_Thuc
                 string path = "C:\\Users\\Wellcome\\Desktop\\TestCase_DacTaHinhThuc\\Application.exe";
                 var parameters = new CompilerParameters(new[] { "mscorlib.dll", "System.Core.dll" }, path, true);
                 parameters.GenerateExecutable = true;
-                var resuilt = csc.CompileAssemblyFromSource(parameters, finalText);
+                //var resuilt = csc.CompileAssemblyFromSource(parameters, finalText);
                 Process.Start("C:\\Users\\Wellcome\\Desktop\\TestCase_DacTaHinhThuc\\Application.exe");
             }
         }
 
-        private void BtnTrans_Click(object sender, EventArgs e)
+        private void Generating()
         {
-            //textBoxOutput.Clear();
-            //textBoxOutput.Text = "";
             finalText = "";
             if (!textBoxInput.Text.Equals(""))
             {
-                inputStr = textBoxInput.Text.Replace(" ", "");
+                textBoxInput.Text = textBoxInput.Text.Replace(" ", "");
+                textBoxInput.Text = textBoxInput.Text.Replace("\n", "");
+                textBoxInput.Text = textBoxInput.Text.Replace("\t", "");
 
+                inputStr = textBoxInput.Text;
                 XuLy a = new XuLy(inputStr);
                 nameFunc = a.nameFunc;
 
@@ -384,16 +427,32 @@ namespace Dac_Ta_Hinh_Thuc
                 finalText += "\t}\n" +
                     "}";
 
-                BackSpace();
+                BackSpace(ref finalText);
+
                 textBoxOutput.Text = finalText;
 
                 HighlightText();
+                BackSpace(ref inputStr);
+                textBoxInput.Text = inputStr;
+                HighlightInputText();
             }
         }
 
-        private void textBoxInput_TextChanged(object sender, EventArgs e)
+        private void BtnTrans_Click(object sender, EventArgs e)
         {
-            
+            Generating();
+            isSaved = false;
+        }
+
+        private void BtnGenerating_Click(object sender, EventArgs e)
+        {
+            Generating();
+        }
+
+        private void BtnAbout_Click(object sender, EventArgs e)
+        {
+            Form about = new AboutForm();
+            about.ShowDialog();
         }
 
         private void BtnUndo_Click(object sender, EventArgs e)
@@ -401,7 +460,6 @@ namespace Dac_Ta_Hinh_Thuc
             textBoxInput.Undo();
             textBoxOutput.Undo();
         }
-
         private void BtnRedo_Click(object sender, EventArgs e)
         {
             textBoxInput.Redo();
@@ -409,15 +467,82 @@ namespace Dac_Ta_Hinh_Thuc
         }
         private void TextBoxInputClear()
         {
-            textBoxInput.Focus();
-            textBoxInput.SelectAll();
-            SendKeys.Send("{BACKSPACE}");
+            textBoxInput.Clear();
         }
         private void TextBoxOutputClear()
         {
-            textBoxOutput.Focus();
-            textBoxOutput.SelectAll();
-            SendKeys.Send("{BACKSPACE}");
+            textBoxOutput.Clear();
+        }
+        private void textBoxInput_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BtnCut_Click(object sender, EventArgs e)
+        {
+            CutText();
+        }
+
+        private void BtnCopy_Click(object sender, EventArgs e)
+        {
+            CopyText();
+        }
+
+        private void BtnPaste_Click(object sender, EventArgs e)
+        {
+            PasteText();
+        }
+
+        private void CutText()
+        {
+            if (textBoxInput.SelectionLength != 0)
+            {
+                Clipboard.SetText(textBoxInput.SelectedText);
+                textBoxInput.SelectedText = "";
+            }
+        }
+        private void CopyText()
+        {
+            if (textBoxInput.SelectionLength != 0)
+            {
+                Clipboard.SetText(textBoxInput.SelectedText);
+            }
+            if (textBoxOutput.SelectionLength != 0)
+            {
+                Clipboard.SetText(textBoxOutput.SelectedText);
+            }
+        }
+        private void PasteText()
+        {
+            if (textBoxInput.ContainsFocus)
+            {
+                textBoxInput.SelectedText = Clipboard.GetText();
+            }
+        }
+
+        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CopyText();
+        }
+
+        private void cutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CutText();
+        }
+
+        private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PasteText();
+        }
+
+        private void undoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            textBoxInput.Undo();
+        }
+
+        private void redoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            textBoxInput.Redo();
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Dac_Ta_Hinh_Thuc
             InitializeComponent();
 
             Color a = Color.Gainsboro;
-            panel1.BackColor = Color.FromArgb(150, a);
+            panel1.BackColor = Color.FromArgb(200, a);
         }
 
         private void AboutForm_Load(object sender, EventArgs e)
