@@ -69,7 +69,6 @@
     <Compile Include="ThamSo.cs" />
     <Compile Include="ThamSo_Array.cs" />
     <Compile Include="ThongTinVongLap.cs" />
-    <Compile Include="Undo_Redo.cs" />
     <Compile Include="XuLy.cs" />
     <EmbeddedResource Include="AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>

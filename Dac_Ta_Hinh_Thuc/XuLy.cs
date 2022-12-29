@@ -10,13 +10,13 @@ namespace Dac_Ta_Hinh_Thuc
     {
         private string inputStr;
         private string firstStr;
-        private string preStr;
+        public string preStr;
         private string postStr;
 
         public string nameFunc;
 
         private bool laBaiToanDieuKien = false;
-        private bool laType2;
+        public bool laType2;
 
         const string PRE = "pre";
         const string POST = "post";
@@ -38,9 +38,10 @@ namespace Dac_Ta_Hinh_Thuc
             {
                 laType2 = true;
             }
+            else
+                laType2 = false;
             TachChuoi();
         }
-
         public void TachChuoi()
         {
             int indexPre, indexPost;
@@ -56,12 +57,12 @@ namespace Dac_Ta_Hinh_Thuc
             XuLyPostStr();
         }
 
-
         //Nhom function xu ly
         public void XuLyFirstStr()
         {
             int index = firstStr.IndexOf("(");
             nameFunc = firstStr.Substring(0, index);
+            
             string danhSachBienDauVao = firstStr.Substring(index);
 
             string bienKetQua = danhSachBienDauVao.Substring(danhSachBienDauVao.IndexOf(")") + 1);
@@ -240,18 +241,31 @@ namespace Dac_Ta_Hinh_Thuc
             string xuat = Tab(count) + "static bool KiemTra_" + nameFunc + "(";
             if (preStr != "\0")
             {
-                foreach (ThamSo i in listInput)
+                if(laType2)
                 {
-                    xuat += i.dataType + " " + i.name + ", ";
+                    xuat += thamSo_Array.dataType + "[] " + thamSo_Array.name + ", ";
+                    xuat += "int " + thamSo_Array.arrLength.name;
+                    xuat += ")\n" +
+                        Tab(count) + "{\n";
+                        //+ Tab(count + 1) + "return true;\n" +
+                        //Tab(count) + "}\n";
                 }
-                xuat = xuat.Remove(xuat.Length - 2);
-                xuat += ")\n" +
-                    Tab(count) + "{\n" +
-                    Tab(count + 1) + "if(" + preStr + ")\n" +
-                    Tab(count + 2) + "return true;\n " +
-                    Tab(count + 1) + "else\n" +
-                    Tab(count + 2) + "return false;\n" +
-                    Tab(count) + "}\n";
+                else
+                {
+                    foreach (ThamSo i in listInput)
+                    {
+                        xuat += i.dataType + " " + i.name + ", ";
+                    }
+                    xuat = xuat.Remove(xuat.Length - 2);
+                    xuat += ")\n" +
+                        Tab(count) + "{\n";
+                        
+                }
+                xuat += Tab(count + 1) + "if(" + preStr + ")\n" +
+                        Tab(count + 2) + "return true;\n " +
+                        Tab(count + 1) + "else\n" +
+                        Tab(count + 2) + "return false;\n" +
+                        Tab(count) + "}\n";
             }
             else
             {
@@ -448,7 +462,6 @@ namespace Dac_Ta_Hinh_Thuc
             }
             return main;
         }
-
 
         //Nhom function xu ly chuoi
         private bool KiemTraNgoacDau_Cuoi(string t)

@@ -15,7 +15,12 @@ namespace Dac_Ta_Hinh_Thuc
         {
             this.danhSachVongLap = new List<ThongTinVongLap>();
             this.danhSachVongLap = danhSachVongLap;
-            this.phepToan = phepToan;
+            string newPhepToan = phepToan;
+            if (!phepToan.Contains("<") && !phepToan.Contains(">") && !phepToan.Contains("!"))
+            {
+                newPhepToan = phepToan.Replace("=", "==");
+            }
+            this.phepToan = newPhepToan;
         }
 
         public string Show(int count)

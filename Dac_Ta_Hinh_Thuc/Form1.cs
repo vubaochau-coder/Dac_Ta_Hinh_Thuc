@@ -54,37 +54,30 @@ namespace Dac_Ta_Hinh_Thuc
             SetBlankPage();
             isSaved = true;
         }
-
         private void BtnOpenFile_Click(object sender, EventArgs e)
         {
             OpenFile();
         }
-
         private void BtnSave_Click(object sender, EventArgs e)
         {
             SaveText();
         }
-
         private void MenuItem_Open_Click(object sender, EventArgs e)
         {
             OpenFile();
         }
-
         private void MenuItem_New_Click(object sender, EventArgs e)
         {
             SetBlankPage();
         }
-
         private void textBoxOutput_TextChanged(object sender, EventArgs e)
         {
             isSaved = false;
         }
-
         private void MenuItem_Save_Click(object sender, EventArgs e)
         {
             SaveText();
         }
-
         private void MenuItem_Exit_Click(object sender, EventArgs e)
         {
             ExitApp();
@@ -121,7 +114,7 @@ namespace Dac_Ta_Hinh_Thuc
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
 
-            openFileDialog.InitialDirectory = "C:\\Users\\Wellcome\\Desktop\\TestCase_DacTaHinhThuc";
+            openFileDialog.InitialDirectory = "C:\\Users\\Wellcome\\Downloads\\Test Bai 2-20221226T010021Z-001\\Test Bai 2";
             openFileDialog.Filter = ".txt|*.txt";
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
@@ -194,6 +187,7 @@ namespace Dac_Ta_Hinh_Thuc
                 }
             }
         }
+
         private void HighlightText()
         {
             string[] blueWords = new string[] { "int", "float", "bool", "string", "void", "ref", "using", "public", "private", "class", "namespace",
@@ -284,18 +278,47 @@ namespace Dac_Ta_Hinh_Thuc
                 }
             }
         }
-
         private void HighlightInputText()
-        {           
-            string[] blueWords = new string[] { "pre", "post"};
-            string[] redWords = new string[] { "R", "N", "B", "*", "Z", "char"};
-            string[] brownWords = new string[] { "||", "&&"};
+        {
+            string[] blueWords = new string[] { "pre", "post" };
+            string[] redWords = new string[] { "R", "N", "B", "*", "Z", "char" };
+            string[] brownWords = new string[] { "||", "&&" };
 
             string temp = textBoxInput.Text;
             temp = temp.Insert(temp.IndexOf("pre"), "\n");
             temp = temp.Insert(temp.IndexOf("pre") + 3, " ");
             temp = temp.Insert(temp.IndexOf("post"), "\n");
             temp = temp.Insert(temp.IndexOf("post") + 4, " ");
+
+
+            int postIndex = temp.IndexOf("post");
+            for (int i = postIndex; i < temp.Length; i++)
+            {
+                if (temp[i] == 'M')
+                {
+                    if (temp[i - 1] == 'V' && temp[i + 1] != ' ')
+                    {
+                        temp = temp.Insert(i + 1, " ");
+                        i++;
+                    }
+                }
+                if (temp[i] == 'T')
+                {
+                    if (temp[i + 1] == 'H' && temp[i - 1] != ' ')
+                    {
+                        temp = temp.Insert(i, " ");
+                        i++;
+                    }
+                }
+                if (temp[i] == 'T' || temp[i] == 'H')
+                {
+                    if (temp[i - 1] == 'T' && temp[i + 1] != ' ')
+                    {
+                        temp = temp.Insert(i + 1, " ");
+                        i++;
+                    }
+                }
+            }
             textBoxInput.Text = temp;
 
             foreach (string blue in blueWords)
@@ -339,7 +362,6 @@ namespace Dac_Ta_Hinh_Thuc
                 }
             }
         }
-
         private void BackSpace(ref string str)
         {
             for (int i = 0; i < str.Length; i++)
@@ -390,7 +412,6 @@ namespace Dac_Ta_Hinh_Thuc
                 }
             }
         }
-
         private void BtnBuild_Click(object sender, EventArgs e)
         {
             if (!textBoxOutput.Text.Equals(""))
@@ -399,13 +420,13 @@ namespace Dac_Ta_Hinh_Thuc
                 string path = "C:\\Users\\Wellcome\\Desktop\\TestCase_DacTaHinhThuc\\Application.exe";
                 var parameters = new CompilerParameters(new[] { "mscorlib.dll", "System.Core.dll" }, path, true);
                 parameters.GenerateExecutable = true;
-                //var resuilt = csc.CompileAssemblyFromSource(parameters, finalText);
+                var resuilt = csc.CompileAssemblyFromSource(parameters, finalText);
                 Process.Start("C:\\Users\\Wellcome\\Desktop\\TestCase_DacTaHinhThuc\\Application.exe");
             }
         }
-
         private void Generating()
         {
+            
             finalText = "";
             if (!textBoxInput.Text.Equals(""))
             {
@@ -416,7 +437,7 @@ namespace Dac_Ta_Hinh_Thuc
                 inputStr = textBoxInput.Text;
                 XuLy a = new XuLy(inputStr);
                 nameFunc = a.nameFunc;
-
+                //MessageBox.Show(a.laType2.ToString());
                 finalText += THEME_1;
                 finalText += a.HamNhap(2);
                 finalText += a.HamKiemTra(2);
@@ -443,18 +464,15 @@ namespace Dac_Ta_Hinh_Thuc
             Generating();
             isSaved = false;
         }
-
         private void BtnGenerating_Click(object sender, EventArgs e)
         {
             Generating();
         }
-
         private void BtnAbout_Click(object sender, EventArgs e)
         {
             Form about = new AboutForm();
             about.ShowDialog();
         }
-
         private void BtnUndo_Click(object sender, EventArgs e)
         {
             textBoxInput.Undo();
@@ -477,22 +495,18 @@ namespace Dac_Ta_Hinh_Thuc
         {
 
         }
-
         private void BtnCut_Click(object sender, EventArgs e)
         {
             CutText();
         }
-
         private void BtnCopy_Click(object sender, EventArgs e)
         {
             CopyText();
         }
-
         private void BtnPaste_Click(object sender, EventArgs e)
         {
             PasteText();
         }
-
         private void CutText()
         {
             if (textBoxInput.SelectionLength != 0)
@@ -519,27 +533,22 @@ namespace Dac_Ta_Hinh_Thuc
                 textBoxInput.SelectedText = Clipboard.GetText();
             }
         }
-
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CopyText();
         }
-
         private void cutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CutText();
         }
-
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             PasteText();
         }
-
         private void undoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             textBoxInput.Undo();
         }
-
         private void redoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             textBoxInput.Redo();
